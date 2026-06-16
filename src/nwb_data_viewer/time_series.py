@@ -22,6 +22,7 @@ class NwbTimeSeriesViewer(ViewerMixin):
         image_shape=(512, 512),
         channel_options=None,
         channel_groups: dict = None,
+        scale_y_axis =1200,
     ):
         """Initialize the time series viewer.
 
@@ -75,6 +76,7 @@ class NwbTimeSeriesViewer(ViewerMixin):
         self.sample_rate = int(
             1 / np.median(np.diff(self.data_timestamps))
         )  # TODO: estimate this better
+        self.scale_y_axis = scale_y_axis
 
     def update_displayed_groups(self):
         if self.channel_groups is None:
@@ -96,7 +98,7 @@ class NwbTimeSeriesViewer(ViewerMixin):
 
         # electrode_index = np.arange(self.max_electrodes)
         # display location info for the eseires data
-        self.tracks_scale = self.image_shape[0] / (self.max_channels) / 1200
+        self.tracks_scale = self.image_shape[0] / (self.max_channels) / self.scale_y_axis
         self.tracks_spacing = self.image_shape[0] / (self.max_channels)
         # make the tracks data and layers
         # self.tracks_layers = []

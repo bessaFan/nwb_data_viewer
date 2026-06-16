@@ -146,11 +146,14 @@ class NwbVideoViewer(ViewerMixin):
         interval_range,
         #  frame_timestamps,
         tmp_dir=None,
+        video_dir=None
     ):
         if not isinstance(nwb_obj, pynwb.image.ImageSeries):
             raise TypeError("nwb_obj must be an instance of pynwb.image.ImageSeries")
         super().__init__(interval_range)
         self.video_path = nwb_obj.external_file[0]
+        if video_dir:
+            self.video_path = video_dir + self.video_path
         self.frame_timestamps = nwb_obj.timestamps[:]
         # Start the background preloader (asynchronous extraction)
         self.loader = VideoFramePreloader(self.video_path, tmp_dir=tmp_dir)
